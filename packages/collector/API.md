@@ -154,7 +154,7 @@ Nevertheless, application code is granted limited read only access to the the co
 
 ### Ending Spans Manually (Message Broker Entries)
 
-We mentioned before that Instana's automated tracing handles everything for you for [supported libraries](https://docs.instana.io/ecosystem/node-js/#supported-versions) and that there is no need to interfere. There is one small exception to this rule: Tracing operations that have been triggered by consuming a message from a message broker (Kafka, RabbitMQ). Since there is no notion of a response or reply when consuming a message from a message broker, there is no event that could tell the Instana Node.js collector when all operations that are triggered by a particular message have been finished (in contrast to an incoming HTTP request, which always has an associated response, demarcating the end of the transaction).
+We mentioned before that Instana's automated tracing handles everything for you for [supported libraries](https://docs.instana.io/ecosystem/node-js/#supported-versions) and that there is no need to interfere. There is one small exception to this rule: Tracing operations that have been triggered by consuming a message from a message broker (Kafka, RabbitMQ, NATS, NATS streaming). Since there is no notion of a response or reply when consuming a message from a message broker, there is no event that could tell the Instana Node.js collector when all operations that are triggered by a particular message have been finished (in contrast to an incoming HTTP request, which always has an associated response, demarcating the end of the transaction).
 
 The problem is that in contrast to other entry span types (HTTP requests for example) there is no notion of a response when receiving a message. When a process receives a new message from RabbitMQ, it will start an entry span. Instana's tracing capabilities need some event that signify that this span is finished. Other calls will only be assigned to the same trace when they are triggered between starting the entry span and finishing it.
 
@@ -186,7 +186,7 @@ channel.consume(queueName, function(msg) {
 
 Note that the span will never be sent to the back end if you call `span.disableAutoEnd()` but forget to call `span.end()` on it.
 
-Also note that for message brokers like Kafka and RabbitMQ, if you do not call `span.disableAutoEnd()` synchronously in your message handling function, the span will be ended and transmitted automatically _immediately_ after your message handling function has returned. This will break that trace, that is, operations (DB access, outgoing HTTP calls, sending other messages) executed while processing that message will not show up as calls in Instana.
+Also note that for message brokers like Kafka, RabbitMQ and NATS, if you do not call `span.disableAutoEnd()` synchronously in your message handling function, the span will be ended and transmitted automatically _immediately_ after your message handling function has returned. This will break that trace, that is, operations (DB access, outgoing HTTP calls, sending other messages) executed while processing that message will not show up as calls in Instana.
 
 There is no need to do any of this when _sending/publishing_ messages to a message broker.
 

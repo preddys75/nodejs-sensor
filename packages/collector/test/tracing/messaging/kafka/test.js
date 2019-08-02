@@ -68,10 +68,7 @@ describe('tracing/kafka', function() {
     });
   });
 
-  // REMARK: HighLevelConsumer has been removed in kafka-node@4.0.0, so we no longer test the highLevel option in
-  // the regular test suite. It can be quickly reactivated if kafka-node < 4.0.0 needs to be tested, see remark in
-  // ../consumer.js
-  ['plain', /* 'highLevel', */ 'consumerGroup'].forEach(consumerType => {
+  ['plain'].forEach(consumerType => {
     describe(`consuming via: ${consumerType}`, () => {
       producerControls.registerTestHooks({
         producerType: 'plain'
