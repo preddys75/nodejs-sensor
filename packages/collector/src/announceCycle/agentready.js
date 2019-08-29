@@ -22,7 +22,7 @@ var previousTransmittedValue;
 module.exports = exports = {
   enter: function(ctx) {
     transmissionsSinceLastFullDataEmit = 0;
-
+    logger.info('*******************GOT HERE*********************************');
     uncaught.activate();
     metrics.activate();
     tracing.activate();
