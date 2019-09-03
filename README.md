@@ -44,7 +44,7 @@ See [@instana/collector FAQ](packages/collector/README.md#faq).
 
 See [@instana/collector](packages/collector/README.md#how-can-the-nodejs-collector-be-disabled-for-local-development).
 
-###To use test_server_start branch for development
+### To use test_server_start branch for development
 
 Clone the modified version (test_server_start) into a different project directory, then do the following 
 
