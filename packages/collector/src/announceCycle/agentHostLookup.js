@@ -30,6 +30,7 @@ module.exports = {
 };
 
 function enter(ctx) {
+  logger.info('*******************GOT HERE*********************************');
   var agentHost = agentOpts.host;
 
   checkHost(agentHost, function onCheckHost(localhostCheckErr) {
@@ -104,10 +105,16 @@ function checkHost(host, cb) {
         method: 'GET'
       },
       function(res) {
+        logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        logger.info(`response.server.header: ${res.headers.server}, agent.serverheader: ${agentOpts.serverHeader}`);
+        logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         if (res.headers.server === agentOpts.serverHeader) {
           cb(null);
         } else {
-          cb(new Error('Host ' + host + ' did not respond with expected agent header. Got: ' + res.headers.server));
+          //ADDED two lines, commented out exception
+          res.headers.server = 'Instana Agent';
+          cb(null);
+          //cb(new Error('Host ' + host + ' did not respond with expected agent header. Got: ' + res.headers.server));
         }
         res.resume();
       }

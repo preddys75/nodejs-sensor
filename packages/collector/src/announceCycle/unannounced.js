@@ -39,44 +39,50 @@ function tryToAnnounce(ctx) {
         retryDelay,
         e
       );
-      setTimeout(tryToAnnounce, retryDelay, ctx).unref();
-      return;
+      //ADDED -- removed next two lines
+      //setTimeout(tryToAnnounce, retryDelay, ctx).unref();
+      //return;
     }
-
-    var pid = response.pid;
+    //ADDED   -- removed line below
+    //var pid = response.pid;
+    var pid = '12345';
     logger.info('Overwriting pid for reporting purposes to: %s', pid);
     pidStore.pid = pid;
 
-    agentOpts.agentUuid = response.agentUuid;
-    if (Array.isArray(response.extraHeaders)) {
-      tracing.setExtraHttpHeadersToCapture(
-        response.extraHeaders.map(function(s) {
-          // Node.js HTTP API turns all incoming HTTP headers into lowercase.
-          return s.toLowerCase();
-        })
-      );
-    }
+    //ADDED -- removed one line
+    //agentOpts.agentUuid = response.agentUuid;
+    agentOpts.agentUuid = '9a19de21-3b1d-4da4-8bf8-8e95f4606c9b';
+    //ADDED -- removed entire if
+    // if (Array.isArray(response.extraHeaders)) {
+    //   tracing.setExtraHttpHeadersToCapture(
+    //     response.extraHeaders.map(function(s) {
+    //       // Node.js HTTP API turns all incoming HTTP headers into lowercase.
+    //       return s.toLowerCase();
+    //     })
+    //   );
+    // }
 
-    if (response.secrets) {
-      if (!(typeof response.secrets.matcher === 'string')) {
-        logger.warn(
-          'Received invalid secrets configuration from agent, attribute matcher is not a string: $s',
-          response.secrets.matcher
-        );
-      } else if (Object.keys(secrets.matchers).indexOf(response.secrets.matcher) < 0) {
-        logger.warn(
-          'Received invalid secrets configuration from agent, matcher is not supported: $s',
-          response.secrets.matcher
-        );
-      } else if (!Array.isArray(response.secrets.list)) {
-        logger.warn(
-          'Received invalid secrets configuration from agent, attribute list is not an array: $s',
-          response.secrets.list
-        );
-      } else {
-        secrets.setMatcher(response.secrets.matcher, response.secrets.list);
-      }
-    }
+    //ADDED -- removed entire if statement
+    // if (response.secrets) {
+    //   if (!(typeof response.secrets.matcher === 'string')) {
+    //     logger.warn(
+    //       'Received invalid secrets configuration from agent, attribute matcher is not a string: $s',
+    //       response.secrets.matcher
+    //     );
+    //   } else if (Object.keys(secrets.matchers).indexOf(response.secrets.matcher) < 0) {
+    //     logger.warn(
+    //       'Received invalid secrets configuration from agent, matcher is not supported: $s',
+    //       response.secrets.matcher
+    //     );
+    //   } else if (!Array.isArray(response.secrets.list)) {
+    //     logger.warn(
+    //       'Received invalid secrets configuration from agent, attribute list is not an array: $s',
+    //       response.secrets.list
+    //     );
+    //   } else {
+    //     secrets.setMatcher(response.secrets.matcher, response.secrets.list);
+    //   }
+    // }
 
     ctx.transitionTo('announced');
   });
