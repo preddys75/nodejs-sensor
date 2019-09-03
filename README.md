@@ -43,3 +43,36 @@ See [@instana/collector FAQ](packages/collector/README.md#faq).
 #### How can the Node.js collector be disabled for (local) development?
 
 See [@instana/collector](packages/collector/README.md#how-can-the-nodejs-collector-be-disabled-for-local-development).
+
+###To use test_server_start branch for development
+
+Clone the modified version (test_server_start) into a different project directory, then do the following 
+
+1) cd to "packages" directory and then in core and collector directories: npm link
+3) Then go back to the project to be instrumented, and in the root directory cd to node_modules directory, and do the following:
+
+npm link @instana/collector
+npm link @instana/core
+
+4) In project root directory open package.json and add the line to dependencies:
+
+"@instana/collector": "^1.71.1",
+
+5) Then go to the place in the project's code where the very first line of code is executed when the project starts and before it add the following:
+
+const instana = require('@instana/collector');
+instana({
+  agentPort: 3000,
+  reportUncaughtException: true
+});
+
+6) Go to a separate directory and issue the following:
+
+npx http-echo-server
+
+7) Now go back to project directory and do: npm start
+
+The output in http-echo-server should show metrics information gathered from your running application.
+ 
+
+ 
