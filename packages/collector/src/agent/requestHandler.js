@@ -28,6 +28,13 @@ exports.handleRequests = function(requests) {
 
 function handleRequest(request) {
   var action = actionMapping[request.action];
+
+  //ADDED 
+  logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+  + 'Logging request contents at requestHandler.handleRequest\n'
+  + Object.prototype.toString.call(request)
+  + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
+
   if (!action) {
     sendResponse(request, { error: "Don't know how to handle action: " + action + '.' });
     return;

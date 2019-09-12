@@ -46,12 +46,19 @@ function tryToAnnounce(ctx) {
     //ADDED   -- removed line below
     //var pid = response.pid;
     var pid = '12345';
-    logger.info('Overwriting pid for reporting purposes to: %s', pid);
+    logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+                + "In unannounced.tryToAnnounce\n"
+                + `Overwriting pid for reporting purposes to: ${pid}\n`
+                + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
     pidStore.pid = pid;
 
     //ADDED -- removed one line
     //agentOpts.agentUuid = response.agentUuid;
     agentOpts.agentUuid = '9a19de21-3b1d-4da4-8bf8-8e95f4606c9b';
+    logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+                + "In unannounced.tryToAnnounce\n"
+                + "Set agentOps.agentUuid to 9a19de21-3b1d-4da4-8bf8-8e95f4606c9b\n"
+                + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
     //ADDED -- removed entire if
     // if (Array.isArray(response.extraHeaders)) {
     //   tracing.setExtraHttpHeadersToCapture(

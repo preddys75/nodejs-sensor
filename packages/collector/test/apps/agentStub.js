@@ -40,6 +40,11 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
+  //ADDED
+  logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+  + "Request formed in agentStub.GET / \n"
+  + Object.prototype.toString.call(req)
+  + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
   res.send('OK');
 });
 
@@ -48,6 +53,11 @@ app.put('/com.instana.plugin.nodejs.discovery', (req, res) => {
   discoveries[pid] = req.body;
 
   logger.debug('New discovery %s with params', pid, req.body);
+  //ADDED
+  logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+  + "Request formed in agentStub.PUT /com.instana.plugin.nodejs.discovery \n"
+  + Object.prototype.toString.call(req)
+  + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
 
   res.send({
     agentUuid: 'agent-stub-uuid',
@@ -63,6 +73,11 @@ app.put('/com.instana.plugin.nodejs.discovery', (req, res) => {
 app.head(
   '/com.instana.plugin.nodejs.:pid',
   checkExistenceOfKnownPid(function handleAnnounceCheck(req, res) {
+    //ADDED
+    logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+    + "Request formed in agentStub.HEAD /com.instana.plugin.nodejs.:pid \n"
+    + Object.prototype.toString.call(req)
+    + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
     logger.debug('Got announce check for PID %s', req.params.pid);
     res.send('OK');
   })
@@ -71,6 +86,11 @@ app.head(
 app.post(
   '/com.instana.plugin.nodejs.:pid',
   checkExistenceOfKnownPid(function handleEntityData(req, res) {
+     //ADDED
+     logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+     + "Request formed in agentStub.POST /com.instana.plugin.nodejs.:pid \n"
+     + Object.prototype.toString.call(req)
+     + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
     if (!dropAllData) {
       retrievedData.runtime.push({
         pid: parseInt(req.params.pid, 10),
@@ -88,6 +108,13 @@ app.post(
 app.post(
   '/com.instana.plugin.nodejs/traces.:pid',
   checkExistenceOfKnownPid(function handleTraces(req, res) {
+
+    //ADDED
+    logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+                + "Request formed in agentStub.POST -- /com.instana.plugin.nodejs/traces.:pid\n"
+                + Object.prototype.toString.call(req)
+                + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
+
     /* eslint-disable no-console */
     if (!dropAllData) {
       retrievedData.traces.push({
@@ -107,6 +134,11 @@ app.post(
 app.post(
   '/com.instana.plugin.nodejs/response.:pid',
   checkExistenceOfKnownPid(function handleResponse(req, res) {
+     //ADDED
+     logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+     + "Request formed in agentStub.POST /com.instana.plugin.nodejs/response.:pid \n"
+     + Object.prototype.toString.call(req)
+     + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
     if (!dropAllData) {
       retrievedData.responses.push({
         pid: parseInt(req.params.pid, 10),
@@ -131,6 +163,11 @@ function checkExistenceOfKnownPid(fn) {
 }
 
 app.post('/com.instana.plugin.generic.event', function postEvent(req, res) {
+  //ADDED
+  logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+  + "Request formed in agentStub.POST /com.instana.plugin.generic.event \n"
+  + Object.prototype.toString.call(req)
+  + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
   if (!dropAllData) {
     retrievedData.events.push(req.body);
   }

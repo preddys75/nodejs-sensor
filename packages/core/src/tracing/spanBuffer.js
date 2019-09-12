@@ -62,6 +62,8 @@ exports.addSpan = function(span) {
 };
 
 function transmitSpans() {
+  //ADDED 
+  console.trace();
   clearTimeout(transmissionTimeoutHandle);
 
   if (spans.length === 0) {

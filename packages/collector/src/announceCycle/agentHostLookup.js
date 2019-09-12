@@ -30,7 +30,10 @@ module.exports = {
 };
 
 function enter(ctx) {
-  logger.info('*******************GOT HERE*********************************');
+  //ADDED
+  logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+              + '*******************GOT to agentHostLookup.enter**********\n'
+              + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
   var agentHost = agentOpts.host;
 
   checkHost(agentHost, function onCheckHost(localhostCheckErr) {
@@ -105,14 +108,19 @@ function checkHost(host, cb) {
         method: 'GET'
       },
       function(res) {
-        logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        logger.info(`response.server.header: ${res.headers.server}, agent.serverheader: ${agentOpts.serverHeader}`);
-        logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        //ADDED
+        logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+                    + `response.server.header: ${res.headers.server}, agent.serverheader: ${agentOpts.serverHeader}\n`
+                    + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
         if (res.headers.server === agentOpts.serverHeader) {
           cb(null);
         } else {
           //ADDED two lines, commented out exception
+          logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+                      + "Setting res.headers.server = 'Instana Agent'\n"
+                      + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
           res.headers.server = 'Instana Agent';
+          
           cb(null);
           //cb(new Error('Host ' + host + ' did not respond with expected agent header. Got: ' + res.headers.server));
         }

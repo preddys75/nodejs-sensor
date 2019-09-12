@@ -123,7 +123,14 @@ exports.announceNodeCollector = function announceNodeCollector(cb) {
       }
     }
 
+    //ADDED
+    logger.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n"
+                + "Request formed in agentConnection.announceNodeCollector\n"
+                + Object.prototype.toString.call(req)
+                + "\n");
+
     req.write(buffer.fromString(JSON.stringify(payload), 'utf8'));
+    
     req.end();
   });
 };
@@ -157,7 +164,11 @@ function checkWhetherResponseForPathIsOkay(path, cb) {
   req.on('error', function() {
     cb(false);
   });
-
+  //ADDED logging before end()
+  logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+             + "Request formed in agentConnection.checkWhetherResponseForPathIsOkay\n"
+             + Object.prototype.toString.call(req)
+             + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
   req.end();
 }
 
@@ -218,7 +229,9 @@ function sendData(path, data, cb, ignore404) {
   }
 
   var payload = JSON.stringify(data, circularReferenceRemover());
-  logger.debug({ payload: data }, 'Sending payload to %s', path);
+  //ADDED custom info
+  //logger.debug({ payload: data }, 'Sending payload to %s', path);
+  logger.info({ payload: data }, '$$$$$$$$$$$$$$ In agentConnection.sendData. Sending payload to %s', path);
 
   // manually turn into a buffer to correctly identify content-length
   payload = buffer.fromString(payload, 'utf8');
@@ -269,7 +282,15 @@ function sendData(path, data, cb, ignore404) {
     cb(new Error('Send data to agent via POST ' + path + '. Request failed: ' + err.message));
   });
 
+  //ADDED 
+  console.trace();
+   //ADDED logging 
+   logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+   + "Request formed in agentConnection.sendData\n"
+   + JSON.stringify(req, circularReferenceRemover())
+   + '\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n');
   req.write(payload);
+ 
   req.end();
 }
 
@@ -350,7 +371,11 @@ function sendRequestsSync(requests) {
  * (reporting an uncaught exception tot the agent in the process.on('uncaughtException') handler).
  */
 function sendHttpPostRequestSync(port, path, data) {
-  logger.debug({ payload: data }, 'Sending payload synchronously to %s', path);
+  //ADDED -- changed debug to info
+  logger.info('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n'
+              + 'In agentConnection.sendHttpPostRequestSync\n'
+              + `${ data.payload } Sending payload synchronously to ${path}\n`
+              + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
   try {
     var payload = JSON.stringify(data);
     var payloadLength = buffer.fromString(payload, 'utf8').length;
